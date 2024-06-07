@@ -1,16 +1,18 @@
 import { auth } from "@/auth";
-import Logout from "@/components/auth/logout";
+import Profile from "@/components/Dashboard/Profile";
+import { Session, User } from "@/types";
 import { redirect } from "next/navigation";
 import React from "react";
 
 const UserDashboard = async () => {
-  const session = await auth();
+  const session = (await auth()) as Session;
+
   if (!session?.user) redirect("/");
   const { user } = session;
 
   return (
     <div>
-      <Logout />
+      <Profile user={user} />
     </div>
   );
 };
