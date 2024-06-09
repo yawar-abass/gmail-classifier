@@ -16,6 +16,7 @@ const EmailsList: React.FC<EmailsListProps> = ({ emails }) => {
   const [classifiedEmails, setClassifiedEmails] =
     useState<GmailMessage[]>(emails);
 
+  let isApiKeyset = localStorage.getItem("apiKey");
   const handleEmailClick = (id: string) => {
     if (openEmailId === id) {
       setOpenEmailId(null);
@@ -49,7 +50,7 @@ const EmailsList: React.FC<EmailsListProps> = ({ emails }) => {
   return (
     <>
       <TopBar onClassify={handleClassifiedEmails} />
-      <ApiInput />
+      {isApiKeyset && <ApiInput />}
       <ul className="flex flex-col space-y-2 my-3">
         {classifiedEmails.map((email) => (
           <EmailItem
