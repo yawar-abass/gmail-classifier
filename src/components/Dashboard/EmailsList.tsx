@@ -5,6 +5,7 @@ import EmailItem from "./EmailItem";
 import { GmailMessage } from "@/types";
 import TopBar from "./TopBar";
 import { classifyEmail } from "@/lib/emailClassifier";
+import ApiInput from "../auth/ApiInput";
 
 interface EmailsListProps {
   emails: GmailMessage[];
@@ -48,7 +49,7 @@ const EmailsList: React.FC<EmailsListProps> = ({ emails }) => {
   return (
     <>
       <TopBar onClassify={handleClassifiedEmails} />
-
+      <ApiInput />
       <ul className="flex flex-col space-y-2 my-3">
         {classifiedEmails.map((email) => (
           <EmailItem
