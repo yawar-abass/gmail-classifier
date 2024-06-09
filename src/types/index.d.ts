@@ -6,9 +6,17 @@ declare module "@/types" {
   };
 
   export interface Session {
-    user?: User;
+    user: User;
     expires?: string;
+    accessToken?: string | null;
+    idToken?: string;
+    [key: string]: any;
+    error?: "RefreshAccessTokenError";
+  }
+  export interface Token {
     accessToken?: string;
+    idToken?: string;
+    [key: string]: any;
   }
 
   export interface GmailMessagePartBody {
@@ -39,6 +47,7 @@ declare module "@/types" {
     internalDate: string;
     payload: GmailMessagePayload;
     sizeEstimate: number;
+    category?: string;
   }
   export interface GmailMessageHeader {
     name: string;
@@ -59,5 +68,13 @@ declare module "@/types" {
 
   export interface GmailMessageGetResponse {
     data: GmailMessage;
+  }
+}
+declare module "next-auth/jwt" {
+  interface JWT {
+    access_token: string;
+    expires_at: number;
+    refresh_token: string;
+    error?: "RefreshAccessTokenError";
   }
 }

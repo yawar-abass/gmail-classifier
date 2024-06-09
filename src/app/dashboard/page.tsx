@@ -3,9 +3,9 @@ import Profile from "@/components/Dashboard/Profile";
 import { Session, User } from "@/types";
 import { redirect } from "next/navigation";
 import React from "react";
-import { google } from "googleapis";
-import EmailItem from "@/components/Dashboard/EmailItem";
 import EmailsList from "@/components/Dashboard/EmailsList";
+import { fetchEmails } from "@/lib/utils";
+import { SessionProvider } from "next-auth/react";
 
 const UserDashboard = async () => {
   const session = (await auth()) as Session;
@@ -13,37 +13,34 @@ const UserDashboard = async () => {
   let emails: any[] = [];
   if (!session?.user) redirect("/");
 
-  const { user, accessToken } = session;
+  const { user, accessToken, expires, error } = session;
 
-  const gAuth = new google.auth.OAuth2();
-  gAuth.setCredentials({ access_token: accessToken });
+  if (error === "RefreshAccessTokenError") {
+    // Force user to log in again if there's an error refreshing the access token
+    redirect("/");
+  }
 
-  const gmail = google.gmail({ version: "v1", auth: gAuth });
+  if (Date.now() > new Date(expires ?? Date.now()).getTime()) {
+    // Redirect to sign in page if the token is expired
+    redirect("/");
+  }
+
+  if (!accessToken) {
+    return redirect("/");
+  }
 
   try {
-    const response = await gmail.users.messages.list({
-      userId: "me",
-      maxResults: 10,
-    });
-
-    emails = await Promise.all(
-      (response.data.messages ?? []).map(async (message) => {
-        const msg = await gmail.users.messages.get({
-          userId: "me",
-          id: message.id,
-        });
-        return msg.data;
-      })
-    );
+    emails = await fetchEmails(accessToken);
   } catch (error) {
     console.error("Error fetching emails:", error);
   }
-  console.log(emails);
 
   return (
     <div>
-      <Profile user={user} />
-      <EmailsList emails={emails} />
+      <SessionProvider session={session}>
+        <Profile user={user} />
+        <EmailsList emails={emails} />
+      </SessionProvider>
     </div>
   );
 };
