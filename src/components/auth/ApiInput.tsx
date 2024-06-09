@@ -15,7 +15,7 @@ const ApiInput = () => {
         htmlFor="api-key"
         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
       >
-        First name
+        Please Enter Your API Key
       </label>
       <input
         type="text"
