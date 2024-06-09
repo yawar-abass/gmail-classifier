@@ -28,7 +28,7 @@ export const classifyEmail = async (
 ): Promise<string> => {
   const openai = initializeOpenAI();
   if (!openai || !emailContent) {
-    return "General"; // Default to General if OpenAI initialization fails
+    return "General";
   }
 
   const prompt = `

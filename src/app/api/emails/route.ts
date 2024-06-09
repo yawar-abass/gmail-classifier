@@ -1,6 +1,4 @@
-// pages/api/fetchEmails.ts
-
-import { fetchEmails } from "@/lib/utils"; // Adjust the import path
+import { fetchEmails } from "@/lib/utils";
 
 export async function POST(req: Request) {
   const payload = await req.json();

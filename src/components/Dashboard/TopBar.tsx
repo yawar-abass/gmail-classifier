@@ -75,7 +75,6 @@ const TopBar: React.FC<TopBarProps> = ({ onClassify }) => {
           <option value="15">15</option>
           <option value="30">30</option>
           <option value="45">45</option>
-          {/* Add more options as needed */}
         </select>
         <button
           onClick={handleClassify}
