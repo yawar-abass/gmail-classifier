@@ -1,3 +1,5 @@
+import { Session } from "@auth/core/types";
+
 declare module "@/types" {
   export type User = {
     name: string;
@@ -5,9 +7,9 @@ declare module "@/types" {
     image: string;
   };
 
-  export interface Session {
-    user: User;
-    expires?: string;
+  export interface CustomSession extends Session {
+    user?: User;
+    expires?: string | null;
     accessToken?: string | null;
     idToken?: string;
     [key: string]: any;

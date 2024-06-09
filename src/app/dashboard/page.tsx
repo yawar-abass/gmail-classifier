@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import Profile from "@/components/Dashboard/Profile";
-import { Session, User } from "@/types";
+import { CustomSession, User } from "@/types";
 import { redirect } from "next/navigation";
 import React from "react";
 import EmailsList from "@/components/Dashboard/EmailsList";
@@ -8,7 +8,7 @@ import { fetchEmails } from "@/lib/utils";
 import { SessionProvider } from "next-auth/react";
 
 const UserDashboard = async () => {
-  const session = (await auth()) as Session;
+  const session = (await auth()) as CustomSession;
 
   let emails: any[] = [];
   if (!session?.user) redirect("/");
