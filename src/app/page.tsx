@@ -1,5 +1,5 @@
 import ApiInput from "@/components/auth/ApiInput";
-import SignIn from "@/components/auth/SignIn";
+import SignIn from "@/components/auth/signIn";
 
 export default function Home() {
   return (
